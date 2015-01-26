@@ -361,8 +361,8 @@ nnoremap <silent> # #zz
 nnoremap <silent> g* g*zz
 
 " switch # *
-nnoremap # *
-nnoremap * #
+"nnoremap # *
+"nnoremap * #
 
 " 去掉搜索高亮
 noremap <silent><leader>/ :nohls<CR>
@@ -467,8 +467,8 @@ nnoremap <leader>q :q<CR>
 " Swap implementations of ` and ' jump to markers
 " By default, ' jumps to the marked line, ` jumps to the marked line and
 " column, so swap them
-nnoremap ' `
-nnoremap ` '
+"nnoremap ' `
+"nnoremap ` '
 
 " remap U to <C-r> for easier redo
 "nnoremap U <C-r>
