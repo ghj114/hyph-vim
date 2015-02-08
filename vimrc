@@ -27,6 +27,11 @@
 let mapleader = ','
 let g:mapleader = ','
 
+set notimeout
+"set timeout
+set ttimeout
+set ttimeoutlen=500
+
 " 开启语法高亮
 syntax on
 
@@ -268,6 +273,10 @@ if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
+"map <C-Space> iand<Esc><C-Space>
+"map <C-@> <C-Space>
+"exe 'map <C-Space> iand<Esc>' . maparg('<C-Space>', '')
+
 "==========================================
 " HotKey Settings  自定义快捷键设置
 "==========================================
@@ -354,15 +363,15 @@ nnoremap / /\v
 vnoremap / /\v
 
 "Keep search pattern at the center of the screen."
-nnoremap <silent> n nzz
-nnoremap <silent> N Nzz
-nnoremap <silent> * *zz
-nnoremap <silent> # #zz
-nnoremap <silent> g* g*zz
+"nnoremap <silent> n nzz
+"nnoremap <silent> N Nzz
+"nnoremap <silent> * *zz
+"nnoremap <silent> # #zz
+"nnoremap <silent> g* g*zz
 
 " switch # *
-nnoremap # *
-nnoremap * #
+"nnoremap # *
+"nnoremap * #
 
 " 去掉搜索高亮
 noremap <silent><leader>/ :nohls<CR>
@@ -467,8 +476,8 @@ nnoremap <leader>q :q<CR>
 " Swap implementations of ` and ' jump to markers
 " By default, ' jumps to the marked line, ` jumps to the marked line and
 " column, so swap them
-nnoremap ' `
-nnoremap ` '
+"nnoremap ' `
+"nnoremap ` '
 
 " remap U to <C-r> for easier redo
 "nnoremap U <C-r>

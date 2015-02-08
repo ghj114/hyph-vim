@@ -171,11 +171,11 @@ Bundle 'gmarik/vundle'
 "map <Leader><leader>l <Plug>(easymotion-lineforward)
 "
 "Bundle 'vim-scripts/matchit.zip'
-"
-"" 显示marks - 方便自己进行标记和跳转
-"" m[a-zA-Z] add mark
-"" '[a-zA-Z] go to mark
-"" m<Space>  del all marks
+
+" 显示marks - 方便自己进行标记和跳转
+" m[a-zA-Z] add mark
+" '[a-zA-Z] go to mark
+" m<Space>  del all marks
 Bundle "kshenoy/vim-signature"
 
 ""################### 文本对象 ###################
@@ -344,6 +344,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 " s/v 分屏打开文件
 let g:NERDTreeMapOpenSplit = 's'
 let g:NERDTreeMapOpenVSplit = 'v'
+let NERDTreeShowBookmarks=1
 
 
 Bundle 'jistr/vim-nerdtree-tabs'
