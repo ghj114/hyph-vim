@@ -1,11 +1,11 @@
 "==========================================
 " Author:  wklken
-" Version: 8.0
+" Version: 9.0
 " Email: wklken@yeah.net
-" BlogPost: http://wklken.me
+" BlogPost: http://www.wklken.me
 " ReadMe: README.md
 " Donation: http://www.wklken.me/pages/donation.html
-" Last_modify: 2014-10-02
+" Last_modify: 2015-05-02
 " Sections:
 "       -> Initial Plugin 加载插件
 "       -> General Settings 基础设置
@@ -26,11 +26,6 @@
 " 修改leader键
 let mapleader = ','
 let g:mapleader = ','
-
-set notimeout
-"set timeout
-set ttimeout
-set ttimeoutlen=500
 
 " 开启语法高亮
 syntax on
@@ -79,7 +74,6 @@ filetype plugin indent on
 
 
 "create undo file
-" hyph: this is a compiling charactor, see through vim --version
 "if has('persistent_undo')
 "  set undolevels=1000         " How many undos
 "  set undoreload=10000        " number of lines to save for undo
@@ -95,7 +89,7 @@ set wildignore=*.swp,*.bak,*.pyc,*.class,.svn
 
 "设置 退出vim后，内容显示在终端屏幕, 可以用于查看和复制
 "好处：误删什么的，如果以前屏幕打开，可以找回
-"set t_ti= t_te=
+set t_ti= t_te=
 
 
 "- 则点击光标不会换,用于复制
@@ -160,7 +154,7 @@ set matchtime=2
 
 "设置文内智能搜索提示
 " 高亮search命中的文本。
-"set hlsearch
+set hlsearch
 " 打开增量搜索模式,随着键入即时搜索
 set incsearch
 " 搜索时忽略大小写
@@ -179,6 +173,18 @@ set foldenable
 " marker    使用标记进行折叠, 默认标记是 {{{ 和 }}}
 set foldmethod=indent
 set foldlevel=99
+" 代码折叠自定义快捷键
+let g:FoldMethod = 0
+map <leader>zz :call ToggleFold()<cr>
+fun! ToggleFold()
+    if g:FoldMethod == 0
+        exe "normal! zM"
+        let g:FoldMethod = 1
+    else
+        exe "normal! zR"
+        let g:FoldMethod = 0
+    endif
+endfun
 
 " 缩进配置
 
@@ -203,11 +209,11 @@ set ttyfast
 set nrformats=
 
 
-"" 相对行号      行号变成相对，可以用 nj  nk   进行跳转 5j   5k 上下跳5行
+" 相对行号      行号变成相对，可以用 nj  nk   进行跳转 5j   5k 上下跳5行
 "set relativenumber number
 "au FocusLost * :set norelativenumber number
 "au FocusGained * :set relativenumber
-"" 插入模式下用绝对行号, 普通模式下用相对
+" 插入模式下用绝对行号, 普通模式下用相对
 "autocmd InsertEnter * :set norelativenumber number
 "autocmd InsertLeave * :set relativenumber
 "function! NumberToggle()
@@ -272,10 +278,6 @@ inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
-
-"map <C-Space> iand<Esc><C-Space>
-"map <C-@> <C-Space>
-"exe 'map <C-Space> iand<Esc>' . maparg('<C-Space>', '')
 
 "==========================================
 " HotKey Settings  自定义快捷键设置
@@ -373,6 +375,10 @@ vnoremap / /\v
 "nnoremap # *
 "nnoremap * #
 
+" for # indent, python文件中输入新行时#号注释不切回行首
+autocmd BufNewFile,BufRead *.py inoremap # X<c-h>#
+
+
 " 去掉搜索高亮
 noremap <silent><leader>/ :nohls<CR>
 
@@ -448,6 +454,11 @@ vnoremap > >gv
 " y$ -> Y Make Y behave like other capitals
 map Y y$
 
+" auto jump to end of select
+" vnoremap <silent> y y`]
+" vnoremap <silent> p p`]
+" nnoremap <silent> p p`]
+
 " select all
 map <Leader>sa ggVG"
 
@@ -472,6 +483,8 @@ nnoremap <C-y> 2<C-y>
 
 " Quickly close the current window
 nnoremap <leader>q :q<CR>
+" Quickly save the current file
+nnoremap <leader>w :w<CR>
 
 " Swap implementations of ` and ' jump to markers
 " By default, ' jumps to the marked line, ` jumps to the marked line and
@@ -486,6 +499,28 @@ nnoremap <leader>q :q<CR>
 nmap <silent> <leader>ev :e $MYVIMRC<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
 
+" Automatically set paste mode in Vim when pasting in insert mode
+function! WrapForTmux(s)
+  if !exists('$TMUX')
+    return a:s
+  endif
+
+  let tmux_start = "\<Esc>Ptmux;"
+  let tmux_end = "\<Esc>\\"
+
+  return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
+endfunction
+
+let &t_SI .= WrapForTmux("\<Esc>[?2004h")
+let &t_EI .= WrapForTmux("\<Esc>[?2004l")
+
+function! XTermPasteBegin()
+  set pastetoggle=<Esc>[201~
+  set paste
+  return ""
+endfunction
+inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+
 "==========================================
 " FileType Settings  文件类型设置
 "==========================================
@@ -493,15 +528,17 @@ nmap <silent> <leader>sv :so $MYVIMRC<CR>
 " Python 文件的一般设置，比如不要 tab 等
 autocmd FileType python set tabstop=4 shiftwidth=4 expandtab ai
 autocmd FileType ruby set tabstop=2 shiftwidth=2 softtabstop=2 expandtab ai
+autocmd BufRead,BufNew *.md,*.mkd,*.markdown  set filetype=markdown.mkd
+
 
 " 保存python文件时删除多余空格
-"fun! <SID>StripTrailingWhitespaces()
-"    let l = line(".")
-"    let c = col(".")
-"    %s/\s\+$//e
-"    call cursor(l, c)
-"endfun
-"autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+fun! <SID>StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
+autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 
 
 " 定义函数AutoSetFileHead，自动插入文件头
@@ -523,8 +560,15 @@ function! AutoSetFileHead()
     normal o
 endfunc
 
-" F10 to run python script
-nnoremap <buffer> <F10> :exec '!python' shellescape(@%, 1)<cr>
+
+" set some keyword to highlight
+if has("autocmd")
+  " Highlight TODO, FIXME, NOTE, etc.
+  if v:version > 701
+    autocmd Syntax * call matchadd('Todo',  '\W\zs\(TODO\|FIXME\|CHANGED\|DONE\|XXX\|BUG\|HACK\)')
+    autocmd Syntax * call matchadd('Debug', '\W\zs\(NOTE\|INFO\|IDEA\|NOTICE\)')
+  endif
+endif
 
 "==========================================
 " Theme Settings  主题设置
@@ -534,7 +578,7 @@ nnoremap <buffer> <F10> :exec '!python' shellescape(@%, 1)<cr>
 if has("gui_running")
     set guifont=Monaco:h14
     if has("gui_gtk2")   "GTK2
-        set guifont=Monaco\ 12, Monospace\ 12
+        set guifont=Monaco\ 12,Monospace\ 12
     endif
     set guioptions-=T
     set guioptions+=e
@@ -549,15 +593,14 @@ endif
 
 " theme主题
 set background=dark
-"set background=light
 set t_Co=256
-"set t_Co=16
-
 colorscheme solarized
-"colorscheme molokai
-"colorscheme desert
-"colorscheme darkblue
-"colorscheme apprentice
+" colorscheme molokai
+" colorscheme Tomorrow-Night
+" colorscheme Tomorrow-Night-Bright
+" colorscheme desert
+
+
 
 "设置标记一列的背景颜色和数字一行颜色一致
 hi! link SignColumn   LineNr
@@ -573,5 +616,3 @@ highlight clear SpellRare
 highlight SpellRare term=underline cterm=underline
 highlight clear SpellLocal
 highlight SpellLocal term=underline cterm=underline
-
-
