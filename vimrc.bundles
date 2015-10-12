@@ -80,43 +80,45 @@ nnoremap <Leader>s :call ToggleErrors()<cr>
 " 代码自动补全
 "迄今为止用到的最好的自动VIM自动补全插件
 "重启 :YcmRestartServer
-"Bundle 'Valloric/YouCompleteMe'
+Bundle 'Valloric/YouCompleteMe'
 "youcompleteme  默认tab  s-tab 和自动补全冲突
-"let g:ycm_key_list_select_completion=['<c-n>']
+let g:ycm_key_list_select_completion=['<c-n>']
 "let g:ycm_key_list_select_completion = ['<Down>']
-"let g:ycm_key_list_previous_completion=['<c-p>']
+let g:ycm_key_list_previous_completion=['<c-p>']
 "let g:ycm_key_list_previous_completion = ['<Up>']
-"let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
-"let g:ycm_complete_in_strings = 1   "在字符串输入中也能补全
-"let g:ycm_use_ultisnips_completer = 1 "提示UltiSnips
-"let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符串中的文字也会被收入补全
-"let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
+let g:ycm_complete_in_strings = 1   "在字符串输入中也能补全
+let g:ycm_use_ultisnips_completer = 1 "提示UltiSnips
+let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符串中的文字也会被收入补全
+let g:ycm_collect_identifiers_from_tags_files = 1
 
 "let g:ycm_seed_identifiers_with_syntax=1   "语言关键字补全, 不过python关键字都很短，所以，需要的自己打开
 
 " 跳转到定义处, 分屏打开
 "let g:ycm_goto_buffer_command = 'horizontal-split'
+let g:ycm_goto_buffer_command = 'vertical-split'
+"let g:ycm_goto_buffer_command = 'new-or-existing-tab'
 " nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
-"nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
-"nnoremap <leader>gd :YcmCompleter GoToDeclaration<CR>
+nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap <leader>gd :YcmCompleter GoToDeclaration<CR>
 
 " 引入，可以补全系统，以及python的第三方包 针对新老版本YCM做了兼容
 " old version
-"if !empty(glob("~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py"))
-"    let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py"
-"endif
-"" new version
-"if !empty(glob("~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"))
-"    let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
-"endif
+if !empty(glob("~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py"))
+    let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py"
+endif
+" new version
+if !empty(glob("~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"))
+    let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
+endif
 
 " 直接触发自动补全 insert模式下
 " let g:ycm_key_invoke_completion = '<C-Space>'
 " 黑名单,不启用
-"let g:ycm_filetype_blacklist = {
-"      \ 'tagbar' : 1,
-"      \ 'gitcommit' : 1,
-"      \}
+let g:ycm_filetype_blacklist = {
+      \ 'tagbar' : 1,
+      \ 'gitcommit' : 1,
+      \}
 
 
 " 代码片段快速插入 (snippets中,是代码片段资源,需要学习)
@@ -180,17 +182,17 @@ au FileType python let b:delimitMate_nesting_quotes = ['"']
 "Bundle 'tpope/vim-repeat'
 
 " 快速去行尾空格 [, + <Space>]
-Bundle 'bronson/vim-trailing-whitespace'
-map <leader><space> :FixWhitespace<cr>
+"Bundle 'bronson/vim-trailing-whitespace'
+"map <leader><space> :FixWhitespace<cr>
 
 " 快速赋值语句对齐
-Bundle 'junegunn/vim-easy-align'
-vmap <Leader>a <Plug>(EasyAlign)
-nmap <Leader>a <Plug>(EasyAlign)
-if !exists('g:easy_align_delimiters')
-  let g:easy_align_delimiters = {}
-endif
-let g:easy_align_delimiters['#'] = { 'pattern': '#', 'ignore_groups': ['String'] }
+"Bundle 'junegunn/vim-easy-align'
+"vmap <Leader>a <Plug>(EasyAlign)
+"nmap <Leader>a <Plug>(EasyAlign)
+"if !exists('g:easy_align_delimiters')
+"  let g:easy_align_delimiters = {}
+"endif
+"let g:easy_align_delimiters['#'] = { 'pattern': '#', 'ignore_groups': ['String'] }
 
 " ################### 快速移动 ###################
 
@@ -207,7 +209,7 @@ map <Leader><leader>. <Plug>(easymotion-repeat)
 
 
 
-Bundle 'vim-scripts/matchit.zip'
+"Bundle 'vim-scripts/matchit.zip'
 
 " 显示marks - 方便自己进行标记和跳转
 " m[a-zA-Z] add mark
@@ -247,20 +249,20 @@ Bundle "kshenoy/vim-signature"
 
 " 文件搜索
 " change to https://github.com/ctrlpvim/ctrlp.vim
-Bundle 'ctrlpvim/ctrlp.vim'
-let g:ctrlp_map = '<leader>p'
-let g:ctrlp_cmd = 'CtrlP'
-map <leader>f :CtrlPMRU<CR>
-let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
-    \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz|pyc)$',
-    \ }
-let g:ctrlp_working_path_mode=0
-let g:ctrlp_match_window_bottom=1
-let g:ctrlp_max_height=15
-let g:ctrlp_match_window_reversed=0
-let g:ctrlp_mruf_max=500
-let g:ctrlp_follow_symlinks=1
+"Bundle 'ctrlpvim/ctrlp.vim'
+"let g:ctrlp_map = '<leader>p'
+"let g:ctrlp_cmd = 'CtrlP'
+"map <leader>f :CtrlPMRU<CR>
+"let g:ctrlp_custom_ignore = {
+"    \ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
+"    \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz|pyc)$',
+"    \ }
+"let g:ctrlp_working_path_mode=0
+"let g:ctrlp_match_window_bottom=1
+"let g:ctrlp_max_height=15
+"let g:ctrlp_match_window_reversed=0
+"let g:ctrlp_mruf_max=500
+"let g:ctrlp_follow_symlinks=1
 " 如果安装了ag, 使用ag
 " if executable('ag')
   " " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
@@ -271,13 +273,13 @@ let g:ctrlp_follow_symlinks=1
 
 
 " ctrlp插件1 - 不用ctag进行函数快速跳转
-Bundle 'tacahiroy/ctrlp-funky'
-nnoremap <Leader>fu :CtrlPFunky<Cr>
-" narrow the list down with a word under cursor
-nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
-let g:ctrlp_funky_syntax_highlight = 1
-
-let g:ctrlp_extensions = ['funky']
+"Bundle 'tacahiroy/ctrlp-funky'
+"nnoremap <Leader>fu :CtrlPFunky<Cr>
+"" narrow the list down with a word under cursor
+"nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+"let g:ctrlp_funky_syntax_highlight = 1
+"
+"let g:ctrlp_extensions = ['funky']
 
 " 类似sublimetext的搜索
 Bundle "dyng/ctrlsf.vim"
@@ -286,10 +288,12 @@ Bundle "dyng/ctrlsf.vim"
 " t       在tab中打开(建议)
 " T - Lkie t but focus CtrlSF window instead of opened new tab.
 " q - Quit CtrlSF window.
+nmap <Leader>f <Plug>CtrlSFPrompt
+vmap <Leader>f <Plug>CtrlSFVwordPath
 nmap \ <Plug>CtrlSFCwordPath<CR>
 " let g:ctrlsf_position = 'below'
 " let g:ctrlsf_winsize = '30%'
-let g:ctrlsf_auto_close = 0
+let g:ctrlsf_auto_close = 1
 let g:ctrlsf_confirm_save = 0
 " Note: cannot use <CR> or <C-m> for open
 " Use : <sapce> or <tab>
@@ -304,7 +308,7 @@ let g:ctrlsf_mapping = {
     \ "prev"  : "<C-K>",
     \ "pquit" : "q",
     \ }
-
+"let g:ctrlsf_position = 'bottom'
 
 " git.  git操作还是习惯命令行,vim里面处理简单diff编辑操作
 " :Gdiff  :Gstatus :Gvsplit
@@ -427,6 +431,18 @@ hi CtrlSpaceNormal   guifg=#839496 guibg=#021B25 guisp=#839496 gui=NONE ctermfg=
 hi CtrlSpaceSearch   guifg=#cb4b16 guibg=NONE gui=bold ctermfg=9 ctermbg=NONE term=bold cterm=bold
 hi CtrlSpaceStatus   guifg=#839496 guibg=#002b36 gui=reverse term=reverse cterm=reverse ctermfg=12 ctermbg=8
 
+function! MoveCursor()
+    let win_nr = winnr('$')
+    for i in range(win_nr)
+        let n = i +1
+        let type = getwinvar(n, '&buftype') 
+        if type == ""
+            exec n. 'wincmd w'
+        endif
+    endfor
+endfunction
+map <NUL> :call MoveCursor() <Bar> CtrlSpace<CR>
+
 
 " for minibufferexpl 去掉, 有需要同学的自己解开
 " Bundle 'fholgado/minibufexpl.vim'
@@ -447,7 +463,7 @@ hi CtrlSpaceStatus   guifg=#839496 guibg=#002b36 gui=reverse term=reverse cterm=
 
 " 标签导航
 Bundle 'majutsushi/tagbar'
-nmap <F9> :TagbarToggle<CR>
+nmap <leader>b :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
 " for ruby
 let g:tagbar_type_ruby = {
@@ -534,8 +550,8 @@ let python_highlight_all = 1
 
 
 " ###### Markdown #########
-Bundle 'plasticboy/vim-markdown'
-let g:vim_markdown_folding_disabled=1
+"Bundle 'plasticboy/vim-markdown'
+"let g:vim_markdown_folding_disabled=1
 
 " https://github.com/suan/vim-instant-markdown
 " npm -g install instant-markdown-d
@@ -594,4 +610,14 @@ let g:vim_markdown_folding_disabled=1
 " nnoremap <leader>y :call Yapf()<cr>
 
 " Bundle 'amoffat/snake'
+
+" Bundle 'davidhalter/jedi-vim'
+"
+"Bundle 'klen/python-mode'
+"let g:pymode_options_colorcolumn = 1
+"let g:pymode_motion = 1
+"let g:pymode_breakpoint = 1
+"let g:pymode_breakpoint_cmd = 'import pdb; pdb.set_trace()  # HYPH BREAKPOINT'
+"let g:pymode_lint = 0
+
 "------------------------------------------- end of configs --------------------------------------------
